@@ -84,7 +84,15 @@ def main():
     print(ro)
 
     matrix = {}
+    for i in Q.keys():
+        for si, j in enumerate(sigma):
+            if i not in matrix.keys():
+                matrix[i] = {j: []}
+            else:
+                matrix[i][j] = []
 
+
+    """
     for i in Q.keys():
         for si, j in enumerate(sigma):
             for k in ro[i]:
@@ -92,7 +100,13 @@ def main():
                     matrix[i] = [{k.to_label}]
                 if k.value == j and i in matrix.keys():
                     matrix[i][0] |= {k.to_label}
+    """
 
+    """
+    else:
+        if new_state not in Q.keys():
+            Q[new_state] = State(new_state)
+    """
     print(matrix)
 
 
