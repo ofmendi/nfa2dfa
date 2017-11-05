@@ -94,7 +94,7 @@ def main():
         for value in lis:
             for s in sigma:
                 if value.value == s:
-                    matrix[key][s].append(value.to_label)
+                    matrix[key][s].append({value.to_label})
     """
     for i in Q.keys():
         for si, j in enumerate(sigma):
