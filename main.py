@@ -1,6 +1,3 @@
-import numpy as np
-
-
 class State(object):
     global sid
     sid = -1
@@ -90,11 +87,17 @@ def main():
                 matrix[i] = {j: []}
             else:
                 matrix[i][j] = []
+
+    print(matrix)
+
     for key, lis in ro.items():
         for value in lis:
             for s in sigma:
                 if value.value == s:
                     matrix[key][s].append({value.to_label})
+
+    print(matrix)
+
     """
     for i in Q.keys():
         for si, j in enumerate(sigma):
@@ -110,7 +113,7 @@ def main():
         if new_state not in Q.keys():
             Q[new_state] = State(new_state)
     """
-    print(matrix)
+
 
 
 if __name__ == "__main__":
