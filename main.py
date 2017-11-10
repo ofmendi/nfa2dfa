@@ -87,7 +87,7 @@ def main():
                 matrix[i] = {j: []}
             else:
                 matrix[i][j] = []
-
+    ros = {}
     for key, lis in ro.items():
         for value in lis:
             for s in sigma:
@@ -95,13 +95,21 @@ def main():
                     matrix[key][s].append(value.to_label)
                     nstate = ','.join(matrix[key][s])
                     if nstate not in matrix.keys():
+                        matrix[nstate] = {}
                         for nsig in sigma:
-                            matrix[nstate] = {nsig: []}
                             tmp = nstate.split(',')
                             tmp2 = set()
                             for t in tmp:
                                 tmp2 |= set(matrix[t][nsig])
                             matrix[nstate][nsig] = list(tmp2)
+                            tmp2 = ','.join(list(tmp2))
+                            ros[nstate] = [Transitions(
+                                55,
+                                nstate,
+                                nsig,
+                                56,
+                                tmp2)]
+
     print(matrix)
 
     """
