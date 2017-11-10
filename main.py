@@ -88,14 +88,20 @@ def main():
             else:
                 matrix[i][j] = []
 
-    print(matrix)
-
     for key, lis in ro.items():
         for value in lis:
             for s in sigma:
                 if value.value == s:
-                    matrix[key][s].append({value.to_label})
-
+                    matrix[key][s].append(value.to_label)
+                    nstate = ','.join(matrix[key][s])
+                    if nstate not in matrix.keys():
+                        for nsig in sigma:
+                            matrix[nstate] = {nsig: []}
+                            tmp = nstate.split(',')
+                            tmp2 = set()
+                            for t in tmp:
+                                tmp2 |= set(matrix[t][nsig])
+                            matrix[nstate][nsig] = list(tmp2)
     print(matrix)
 
     """
