@@ -34,7 +34,16 @@ def main():
     print("[!] Lutfen alfabenizi ',' ile ayirarak giriniz. Ornegin a,b,c")
     sigma = input("> [+] Alfabe : ").split(',')
 
-    sum_state = int(input("> [+] Kac adet state gireceksiniz : "))
+    while True:
+        try:
+            sum_state = int(input("> [+] Kac adet state gireceksiniz : "))
+            if sum_state < 1:
+                raise ValueError()
+            else:
+                break
+        except ValueError:
+            print("[!] Lutfen pozitif bir dogal sayi giriniz.")
+
     Q = {}
     for i in range(sum_state):
         label = input("> [+] State adini giriniz : ")
@@ -59,34 +68,36 @@ def main():
     ro = {}
     print("[!] Lutfen belirtilen sekilde giriniz. Ornegin q0:a>q1")
     while True:
-        transitions = input("> [+] Transitions(Cikis icin x) : ").split('>')
-        if transitions[0] == 'x':
-            break
-        curr = transitions[0].split(':')[0]
-        value = transitions[0].split(':')[1]
-        to = transitions[1]
-        if value not in sigma or curr not in Q.keys() or to not in Q.keys():
-            print("[*] Girilen transition hatali lütfen kontrol ediniz.")
-            continue
-        if curr in ro.keys():
-            ro[curr].append(Transitions(
-                Q[curr].sid,
-                Q[curr].label,
-                value,
-                Q[to].sid,
-                Q[to].label))
-        else:
-            ro[curr] = [Transitions(
-                Q[curr].sid,
-                Q[curr].label,
-                value,
-                Q[to].sid,
-                Q[to].label)]
-    print(ro)
+        try:
+            transitions = input("> [+] Transitions(Cikis icin x) : ").split('>')
+            if transitions[0] == 'x':
+                break
+            curr = transitions[0].split(':')[0]
+            value = transitions[0].split(':')[1]
+            to = transitions[1]
+            if value not in sigma or curr not in Q.keys() or to not in Q.keys():
+                print("[*] Girilen transition hatali lütfen kontrol ediniz.")
+                continue
+            if curr in ro.keys():
+                ro[curr].append(Transitions(
+                    Q[curr].sid,
+                    Q[curr].label,
+                    value,
+                    Q[to].sid,
+                    Q[to].label))
+            else:
+                ro[curr] = [Transitions(
+                    Q[curr].sid,
+                    Q[curr].label,
+                    value,
+                    Q[to].sid,
+                    Q[to].label)]
+        except Exception as e:
+            print("[!] Hata : ",e)
 
     matrix = {}
     for i in Q.keys():
-        for si, j in enumerate(sigma):
+        for j in sigma:
             if i not in matrix.keys():
                 matrix[i] = {j: []}
             else:
@@ -97,7 +108,7 @@ def main():
             for s in sigma:
                 if value.value == s:
                     matrix[key][s].append(value.to_label)
-                    nstate = ','.join(matrix[key][s])
+                    nstate = ','.join(sorted(matrix[key][s]))
                     if nstate not in matrix.keys():
                         new_states.append(nstate)
     else:
@@ -115,6 +126,7 @@ def main():
                         new_states.append(','.join(tmp2))
 
     pprint.pprint(matrix)
+
 
 if __name__ == "__main__":
     try:
