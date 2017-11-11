@@ -1,3 +1,7 @@
+import operator
+import pprint
+
+
 class State(object):
     global sid
     sid = -1
@@ -87,30 +91,30 @@ def main():
                 matrix[i] = {j: []}
             else:
                 matrix[i][j] = []
-    ros = {}
-    for key, lis in ro.items():
+    new_states = []
+    for key, lis in sorted(ro.items(), key=operator.itemgetter(0)):
         for value in lis:
             for s in sigma:
                 if value.value == s:
                     matrix[key][s].append(value.to_label)
                     nstate = ','.join(matrix[key][s])
                     if nstate not in matrix.keys():
-                        matrix[nstate] = {}
-                        for nsig in sigma:
-                            tmp = nstate.split(',')
-                            tmp2 = set()
-                            for t in tmp:
-                                tmp2 |= set(matrix[t][nsig])
-                            matrix[nstate][nsig] = list(tmp2)
-                            tmp2 = ','.join(list(tmp2))
-                            ros[nstate] = [Transitions(
-                                55,
-                                nstate,
-                                nsig,
-                                56,
-                                tmp2)]
+                        new_states.append(nstate)
+    else:
+        for i in new_states:
+            if i not in matrix.keys():
+                matrix[i] = {}
+                for nsig in sigma:
+                    tmp = i.split(',')
+                    tmp2 = set()
+                    for t in tmp:
+                        tmp2 |= set(matrix[t][nsig])
+                    tmp2 = list(tmp2)[::-1]
+                    matrix[i][nsig] = tmp2
+                    if ','.join(list(tmp2)) not in matrix.keys():
+                        new_states.append(','.join(list(tmp2)))
 
-    print(matrix)
+    pprint.pprint(matrix)
 
     """
     for i in Q.keys():
