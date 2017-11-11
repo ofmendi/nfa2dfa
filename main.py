@@ -109,30 +109,12 @@ def main():
                     tmp2 = set()
                     for t in tmp:
                         tmp2 |= set(matrix[t][nsig])
-                    tmp2 = list(tmp2)[::-1]
+                    tmp2 = sorted(list(tmp2))
                     matrix[i][nsig] = tmp2
-                    if ','.join(list(tmp2)) not in matrix.keys():
-                        new_states.append(','.join(list(tmp2)))
+                    if ','.join(tmp2) not in matrix.keys():
+                        new_states.append(','.join(tmp2))
 
     pprint.pprint(matrix)
-
-    """
-    for i in Q.keys():
-        for si, j in enumerate(sigma):
-            for k in ro[i]:
-                if k.value == j and i not in matrix.keys():
-                    matrix[i] = [{k.to_label}]
-                if k.value == j and i in matrix.keys():
-                    matrix[i][0] |= {k.to_label}
-    """
-
-    """
-    else:
-        if new_state not in Q.keys():
-            Q[new_state] = State(new_state)
-    """
-
-
 
 if __name__ == "__main__":
     try:
