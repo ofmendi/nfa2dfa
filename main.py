@@ -45,9 +45,17 @@ def main():
             print("[!] Lutfen pozitif bir dogal sayi giriniz.")
 
     Q = {}
-    for i in range(sum_state):
-        label = input("> [+] State adini giriniz : ")
-        Q.update({label: State(label)})
+    while True:
+        try:
+            for i in range(sum_state):
+                label = input("> [+] State adini giriniz : ")
+                if not label:
+                    raise ValueError()
+                Q.update({label: State(label)})
+            else:
+                break
+        except ValueError:
+            print("[!] Lutfen state adini giriniz.")
 
     while True:
         inital_state = input("> [+] Inital State : ")
@@ -76,7 +84,7 @@ def main():
             value = transitions[0].split(':')[1]
             to = transitions[1]
             if value not in sigma or curr not in Q.keys() or to not in Q.keys():
-                print("[*] Girilen transition hatali lütfen kontrol ediniz.")
+                print("[*] Girilen transition hatali lutfen kontrol ediniz.")
                 continue
             if curr in ro.keys():
                 ro[curr].append(Transitions(
@@ -93,7 +101,7 @@ def main():
                     Q[to].sid,
                     Q[to].label)]
         except Exception as e:
-            print("[!] Hata : ",e)
+            print("[!] Hata : ", e)
 
     matrix = {}
     for i in Q.keys():
