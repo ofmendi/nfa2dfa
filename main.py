@@ -131,7 +131,8 @@ def main():
                     tmp2 = sorted(list(tmp2))
                     matrix[i][nsig] = tmp2
                     if ','.join(tmp2) not in matrix.keys():
-                        new_states.append(','.join(tmp2))
+                        if len(','.join(tmp2)) > 1:
+                            new_states.append(','.join(tmp2))
 
     pprint.pprint(matrix)
 
